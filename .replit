@@ -10,7 +10,7 @@ publicDir = "/"
 deploymentTarget = "static"
 
 [workflows]
-runButton = "Auto Push"
+runButton = "Serve static"
 
 [[workflows.workflow]]
 name = "Serve static"
