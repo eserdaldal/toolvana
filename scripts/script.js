@@ -47,81 +47,7 @@ function displayGreeting() {
   console.log(`${greeting}! Toolvana'ya hoş geldiniz.`);
 }
 
-// Local Storage Management for Recently Used Tools
-const ToolStorage = {
-  STORAGE_KEY: 'toolvana_recent_tools',
-  MAX_RECENT_TOOLS: 3,
-  
-  // Get recently used tools from localStorage
-  getRecentTools: function() {
-    try {
-      const stored = localStorage.getItem(this.STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.warn('Error reading recent tools from localStorage:', error);
-      return [];
-    }
-  },
-  
-  // Add a tool to recently used list
-  addRecentTool: function(toolName, toolUrl) {
-    try {
-      let recentTools = this.getRecentTools();
-      
-      // Remove if already exists to avoid duplicates
-      recentTools = recentTools.filter(tool => tool.url !== toolUrl);
-      
-      // Add to beginning of array
-      recentTools.unshift({
-        name: toolName,
-        url: toolUrl,
-        timestamp: Date.now()
-      });
-      
-      // Keep only the most recent tools
-      recentTools = recentTools.slice(0, this.MAX_RECENT_TOOLS);
-      
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(recentTools));
-      this.updateRecentToolsDisplay();
-    } catch (error) {
-      console.warn('Error saving recent tool to localStorage:', error);
-    }
-  },
-  
-  // Update the recent tools display in sidebar
-  updateRecentToolsDisplay: function() {
-    const recentTools = this.getRecentTools();
-    const list = document.querySelector('#recent-tools-list');
-    
-    if (!list) return;
-    
-    list.innerHTML = '';
-    
-    if (recentTools.length === 0) {
-      const emptyItem = document.createElement('li');
-      emptyItem.innerHTML = '<span class="widget-link" style="opacity: 0.6;">Henüz araç kullanılmadı</span>';
-      list.appendChild(emptyItem);
-      return;
-    }
-    
-    recentTools.forEach(tool => {
-      const listItem = document.createElement('li');
-      const link = document.createElement('a');
-      link.href = tool.url;
-      link.className = 'widget-link';
-      link.textContent = tool.name;
-      link.setAttribute('title', `Son kullanım: ${new Date(tool.timestamp).toLocaleDateString('tr-TR')}`);
-      
-      // Add click tracking
-      link.addEventListener('click', () => {
-        this.addRecentTool(tool.name, tool.url);
-      });
-      
-      listItem.appendChild(link);
-      list.appendChild(listItem);
-    });
-  }
-};
+// Tool tracking functionality migrated to RecentToolsManager module
 
 // Dark/Light Theme Management
 const ThemeManager = {
@@ -929,17 +855,15 @@ function initToolTracking() {
   const widgetLinks = document.querySelectorAll('.widget-link');
   widgetLinks.forEach(link => {
     link.addEventListener('click', () => {
-      const toolName = link.textContent.trim();
       const toolUrl = link.getAttribute('href') || '#';
-      ToolStorage.addRecentTool(toolName, toolUrl);
+      if (toolUrl !== '#') {
+        const toolId = toolUrl.split('/').pop().replace('.html', '');
+        if (window.RecentToolsManager) {
+          window.RecentToolsManager.save(toolId);
+        }
+      }
     });
   });
-  
-  // Note: Widget container already exists in HTML with ID "recent-tools-list"
-  // No need to create new elements - just update the existing one
-  
-  // Initial display update
-  ToolStorage.updateRecentToolsDisplay();
 }
 
 // Add screen reader only class to CSS
@@ -1084,7 +1008,6 @@ const Toolvana = {
   },
   
   // New utility methods for enhanced features
-  ToolStorage: ToolStorage,
   ThemeManager: ThemeManager,
   ToolsFilter: ToolsFilter
 };

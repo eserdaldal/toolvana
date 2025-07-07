@@ -159,3 +159,6 @@ const RecentToolsManager = {
 
 // Export for module use
 export { RecentToolsManager };
+
+// Also make available globally for compatibility
+window.RecentToolsManager = RecentToolsManager;

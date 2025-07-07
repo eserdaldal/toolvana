@@ -10,7 +10,6 @@ import { initNotifications } from './ui/notifications.js';
 import { initGreeting } from './logic/greeting.js';
 import { RecentToolsManager } from './logic/RecentToolsManager.js';
 import { initToolFilter } from './logic/toolFilter.js';
-import { RecentToolsManager } from './logic/RecentToolsManager.js';
 
 // Application state
 const App = {
@@ -95,133 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ RecentToolsManager integration complete');
 });
 
-// Recent Tools Management
-const RecentToolsManager = {
-  STORAGE_KEY: 'toolvana_recent_tools',
-  MAX_RECENT_TOOLS: 5,
-
-  // Save a recently clicked tool
-  saveRecentTool: function(toolData) {
-    try {
-      let recentTools = this.getRecentTools();
-
-      // Remove if already exists to avoid duplicates
-      recentTools = recentTools.filter(tool => tool.id !== toolData.id);
-
-      // Add to beginning of array
-      recentTools.unshift(toolData);
-
-      // Keep only max number of tools
-      if (recentTools.length > this.MAX_RECENT_TOOLS) {
-        recentTools = recentTools.slice(0, this.MAX_RECENT_TOOLS);
-      }
-
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(recentTools));
-      this.displayRecentTools();
-    } catch (error) {
-      console.warn('Error saving recent tool:', error);
-    }
-  },
-
-  // Get recent tools from localStorage
-  getRecentTools: function() {
-    try {
-      const stored = localStorage.getItem(this.STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.warn('Error loading recent tools:', error);
-      return [];
-    }
-  },
-
-  // Display recent tools in the UI
-  displayRecentTools: function() {
-    const recentSection = document.getElementById('recent-tools');
-    if (!recentSection) return;
-
-    const recentTools = this.getRecentTools();
-
-    if (recentTools.length === 0) {
-      recentSection.innerHTML = '<p class="no-recent-tools">Henüz kullanılmış araç yok</p>';
-      return;
-    }
-
-    const toolsHTML = recentTools.map(tool => `
-      <div class="recent-tool-item" data-tool-id="${tool.id}">
-        <a href="${tool.link}" class="recent-tool-link">
-          <span class="recent-tool-icon">${tool.icon || '🔧'}</span>
-          <span class="recent-tool-name">${tool.name}</span>
-        </a>
-      </div>
-    `).join('');
-
-    recentSection.innerHTML = toolsHTML;
-  },
-
-  // Initialize recent tools tracking
-  init: function() {
-    this.displayRecentTools();
-    this.attachToolClickListeners();
-  },
-
-  // Attach click listeners to tool cards
-  attachToolClickListeners: function() {
-    // Use event delegation to handle dynamically added tools
-    document.addEventListener('click', (e) => {
-      const toolCard = e.target.closest('.tool-card');
-      if (!toolCard) return;
-
-      // Extract tool data from the card
-      const toolData = this.extractToolData(toolCard);
-      if (toolData) {
-        this.saveRecentTool(toolData);
-      }
-    });
-  },
-
-  // Extract tool data from a tool card element
-  extractToolData: function(toolCard) {
-    try {
-      const titleElement = toolCard.querySelector('h3');
-      const linkElement = toolCard.querySelector('a');
-
-      if (!titleElement || !linkElement) return null;
-
-      return {
-        id: linkElement.href || titleElement.textContent.toLowerCase().replace(/\s+/g, '-'),
-        name: titleElement.textContent.trim(),
-        link: linkElement.href,
-        icon: this.getToolIcon(titleElement.textContent),
-        timestamp: Date.now()
-      };
-    } catch (error) {
-      console.warn('Error extracting tool data:', error);
-      return null;
-    }
-  },
-
-  // Get appropriate icon for tool type
-  getToolIcon: function(toolName) {
-    const iconMap = {
-      'hesap makinesi': '🧮',
-      'calculator': '🧮',
-      'converter': '🔄',
-      'dönüştürücü': '🔄',
-      'generator': '⚡',
-      'üretici': '⚡',
-      'validator': '✅',
-      'doğrulayıcı': '✅'
-    };
-
-    const lowerName = toolName.toLowerCase();
-    for (const [key, icon] of Object.entries(iconMap)) {
-      if (lowerName.includes(key)) {
-        return icon;
-      }
-    }
-    return '🔧';
-  }
-};
+// Recent Tools Management migrated to RecentToolsManager module
 
 // Theme Management Preparation (UI implementation in separate module)
 const ThemeManager = {
@@ -312,22 +185,18 @@ const ThemeManager = {
 
 // Add new methods to main App object
 Object.assign(App, {
-  // Load recent tools on initialization
-  loadRecentTools: function() {
-    RecentToolsManager.init();
-    console.log('Recent tools loaded');
-  },
-
   // Get recent tools (public API)
   getRecentTools: function() {
-    return RecentToolsManager.getRecentTools();
+    return window.RecentToolsManager ? window.RecentToolsManager.get() : [];
   },
 
   // Clear recent tools (public API)
   clearRecentTools: function() {
     try {
-      localStorage.removeItem(RecentToolsManager.STORAGE_KEY);
-      RecentToolsManager.displayRecentTools();
+      localStorage.removeItem('toolvana_recent');
+      if (window.RecentToolsManager) {
+        window.RecentToolsManager.render('#recent-tools-list');
+      }
       console.log('Recent tools cleared');
     } catch (error) {
       console.warn('Error clearing recent tools:', error);
@@ -375,8 +244,7 @@ App.init = async function() {
       initToolFilter()
     ]);
 
-    // Initialize new features
-    this.loadRecentTools();
+    // Initialize new features - RecentToolsManager is handled by separate init script
 
     // Mark as initialized
     this.initialized = true;
