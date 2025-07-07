@@ -1,7 +1,7 @@
 
 /**
- * RecentToolsManager.js - Manages recently used tools
- * Handles saving, retrieving, and rendering recently used tool identifiers
+ * RecentToolsManager.js - Manages recently used tools with enhanced metadata
+ * Handles saving, retrieving, and rendering recently used tool objects
  */
 
 const RecentToolsManager = {
@@ -9,13 +9,29 @@ const RecentToolsManager = {
   STORAGE_KEY: 'toolvana_recent',
   MAX_RECENT_TOOLS: 5,
 
+  // Predefined tool mapping
+  TOOL_MAP: {
+    "kalori-hesaplayici": { name: "Kalori Hesaplayıcı", url: "/tools/kalori-hesaplayici.html" },
+    "thumbnail-olusturucu": { name: "YouTube Thumbnail Oluşturucu", url: "/tools/thumbnail-olusturucu.html" },
+    "pdf-donusturucu": { name: "PDF Dönüştürücü", url: "/tools/pdf-donusturucu.html" },
+    "kelime-sayaci": { name: "Kelime Sayacı", url: "/tools/kelime-sayaci.html" }
+  },
+
   /**
-   * Save a tool ID to recent tools list
+   * Save a tool to recent tools list
    * @param {string} toolId - The tool identifier to save
    */
   save(toolId) {
     // Validate input
     if (!this._isValidToolId(toolId)) {
+      console.warn('Invalid toolId:', toolId);
+      return;
+    }
+
+    // Get tool metadata from TOOL_MAP
+    const toolData = this.TOOL_MAP[toolId];
+    if (!toolData) {
+      console.warn('Tool not found in TOOL_MAP:', toolId);
       return;
     }
 
@@ -23,13 +39,19 @@ const RecentToolsManager = {
       // Get current recent tools
       let recentTools = this.get();
 
-      // Remove duplicate if exists (case-insensitive)
-      recentTools = recentTools.filter(id => 
-        id.toLowerCase() !== toolId.toLowerCase()
-      );
+      // Remove duplicate if exists (based on id)
+      recentTools = recentTools.filter(tool => tool.id !== toolId);
+
+      // Create new tool object
+      const newTool = {
+        id: toolId,
+        name: toolData.name,
+        url: toolData.url,
+        timestamp: Date.now()
+      };
 
       // Add to beginning (most recent first)
-      recentTools.unshift(toolId);
+      recentTools.unshift(newTool);
 
       // Keep only max number of tools
       if (recentTools.length > this.MAX_RECENT_TOOLS) {
@@ -44,8 +66,8 @@ const RecentToolsManager = {
   },
 
   /**
-   * Get array of recent tool IDs
-   * @returns {string[]} Array of tool IDs, most recent first
+   * Get array of recent tool objects
+   * @returns {Array} Array of tool objects, most recent first
    */
   get() {
     try {
@@ -56,14 +78,14 @@ const RecentToolsManager = {
 
       const parsed = JSON.parse(stored);
       
-      // Ensure we return an array and filter out invalid entries
+      // Ensure we return an array and validate entries
       if (!Array.isArray(parsed)) {
         return [];
       }
 
       // Filter and validate entries
       return parsed
-        .filter(id => this._isValidToolId(id))
+        .filter(tool => this._isValidToolObject(tool))
         .slice(0, this.MAX_RECENT_TOOLS);
     } catch (error) {
       console.warn('Error loading recent tools:', error);
@@ -93,12 +115,12 @@ const RecentToolsManager = {
     }
 
     // Create list items for each recent tool
-    recentTools.forEach(toolId => {
+    recentTools.forEach(tool => {
       const listItem = document.createElement('li');
       const link = document.createElement('a');
       
-      link.href = `/tools/${toolId}.html`;
-      link.textContent = this._getToolDisplayName(toolId);
+      link.href = tool.url;
+      link.textContent = tool.name;
       link.className = 'widget-link';
       
       listItem.appendChild(link);
@@ -117,20 +139,21 @@ const RecentToolsManager = {
   },
 
   /**
-   * Get display name for tool ID
-   * @param {string} toolId - Tool identifier
-   * @returns {string} Human-readable tool name
+   * Validate tool object structure
+   * @param {*} tool - Tool object to validate
+   * @returns {boolean} True if valid tool object
    * @private
    */
-  _getToolDisplayName(toolId) {
-    const displayNames = {
-      'kelime-sayaci': 'Kelime Sayacı',
-      'pdf-donusturucu': 'PDF Dönüştürücü',
-      'kalori-hesaplayici': 'Kalori Hesaplayıcı',
-      'thumbnail-olusturucu': 'YouTube Thumbnail Oluşturucu'
-    };
-    
-    return displayNames[toolId] || toolId;
+  _isValidToolObject(tool) {
+    return tool && 
+           typeof tool === 'object' &&
+           typeof tool.id === 'string' &&
+           typeof tool.name === 'string' &&
+           typeof tool.url === 'string' &&
+           typeof tool.timestamp === 'number' &&
+           tool.id.trim().length > 0 &&
+           tool.name.trim().length > 0 &&
+           tool.url.trim().length > 0;
   }
 };
 
