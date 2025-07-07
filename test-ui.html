@@ -138,18 +138,34 @@
     </div>
   </div>
 
+  <section>
+    <h3>Recent Tools Test (Limit + Invalid Data)</h3>
+    <ul id="recent-tools-list"></ul>
+  </section>
+
   <script type="module">
     import { RecentToolsManager } from './scripts/logic/RecentToolsManager.js';
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Reset test state
+      // Reset for test
       localStorage.removeItem('toolvana_recent');
 
-      // Add test tools
-      RecentToolsManager.save('thumbnail-olusturucu');
-      RecentToolsManager.save('kalori-hesaplayici');
+      // Valid tool IDs
+      RecentToolsManager.save('tool-1');
+      RecentToolsManager.save('tool-2');
+      RecentToolsManager.save('tool-3');
+      RecentToolsManager.save('tool-4');
+      RecentToolsManager.save('tool-5');
+      RecentToolsManager.save('tool-6');
+      RecentToolsManager.save('tool-7');
 
-      // Render test output
+      // Invalid inputs
+      RecentToolsManager.save('');
+      RecentToolsManager.save(null);
+      RecentToolsManager.save(undefined);
+      RecentToolsManager.save(12345);
+
+      // Render to test container
       RecentToolsManager.render('#recent-tools-list');
     });
   </script>
