@@ -138,6 +138,23 @@
     <ul id="recent-tools-list"></ul>
   </section>
 
+  <script type="module">
+    import { RecentToolsManager } from './scripts/logic/RecentToolsManager.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      localStorage.removeItem('toolvana_recent');
+
+      RecentToolsManager.save('kelime-sayaci');
+      RecentToolsManager.save('pdf-donusturucu');
+      RecentToolsManager.save('kalori-hesaplayici');
+      RecentToolsManager.save('thumbnail-olusturucu');
+      RecentToolsManager.save('kalori-hesaplayici');
+      RecentToolsManager.save('pdf-donusturucu');
+
+      RecentToolsManager.render('#recent-tools-list');
+    });
+  </script>
+
 </body>
 
 </html>
