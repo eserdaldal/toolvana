@@ -117,8 +117,8 @@ const RecentToolsManager = {
   },
 
   /**
-   * Get display name for a tool ID
-   * @param {string} toolId - The tool identifier
+   * Get display name for tool ID
+   * @param {string} toolId - Tool identifier
    * @returns {string} Human-readable tool name
    * @private
    */
@@ -127,19 +127,12 @@ const RecentToolsManager = {
       'kelime-sayaci': 'Kelime Sayacı',
       'pdf-donusturucu': 'PDF Dönüştürücü',
       'kalori-hesaplayici': 'Kalori Hesaplayıcı',
-      'thumbnail-olusturucu': 'YouTube Thumbnail Oluşturucu',
-      'calculator': 'Hesap Makinesi',
-      'text-converter': 'Metin Dönüştürücü',
-      'image-resizer': 'Resim Boyutlandırıcı',
-      'qr-generator': 'QR Kod Oluşturucu'
+      'thumbnail-olusturucu': 'YouTube Thumbnail Oluşturucu'
     };
-
+    
     return displayNames[toolId] || toolId;
   }
 };
 
-// Export for ES6 modules
-export default RecentToolsManager;
-
-// Also export as named export for flexibility
+// Export for module use
 export { RecentToolsManager };

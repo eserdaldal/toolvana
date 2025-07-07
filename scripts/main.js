@@ -8,7 +8,7 @@ import { initThemeToggle } from './ui/themeToggle.js';
 import { initSmoothScroll } from './ui/smoothScroll.js';
 import { initNotifications } from './ui/notifications.js';
 import { initGreeting } from './logic/greeting.js';
-import { initRecentTools } from './logic/recentTools.js';
+import { RecentToolsManager } from './logic/RecentToolsManager.js';
 import { initToolFilter } from './logic/toolFilter.js';
 import { RecentToolsManager } from './logic/RecentToolsManager.js';
 
@@ -40,7 +40,7 @@ const App = {
 
       // Initialize logic modules
       await Promise.all([
-        initRecentTools(),
+        Promise.resolve(RecentToolsManager.render('#recent-tools-list')),
         initToolFilter()
       ]);
 
@@ -371,7 +371,7 @@ App.init = async function() {
 
     // Initialize logic modules
     await Promise.all([
-      initRecentTools(),
+      Promise.resolve(RecentToolsManager.render('#recent-tools-list')),
       initToolFilter()
     ]);
 
