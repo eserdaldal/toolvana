@@ -26,6 +26,19 @@ HELP=false
 README_EN_PATH="docs/readme_en.md"
 README_TR_PATH="docs/readme_tr.md"
 
+# === 📝 DEFAULT CONTENT ===
+DEFAULT_EN_CONTENT="# Toolvana
+
+**Solve Faster. Work Smarter.**
+
+Toolvana is a modern and user-friendly platform that brings together online tools for daily needs under one roof."
+
+DEFAULT_TR_CONTENT="# Toolvana
+
+**Daha Hızlı Çöz. Daha Akıllı Çalış.**
+
+Toolvana, günlük ihtiyaçlara yönelik çevrimiçi araçları tek bir çatı altında sunan modern ve kullanıcı dostu bir platformdur."
+
 # Parse command line arguments
 while [ $# -gt 0 ]; do
     case $1 in
@@ -120,24 +133,40 @@ execute_command() {
     fi
 }
 
+# === 📂 README FILE MANAGEMENT ===
+ensure_readme_files_exist() {
+    log_info "📂 Ensuring README source files exist..."
+    
+    # Ensure docs directory exists
+    mkdir -p docs
+    
+    # Check and create English README if missing or empty
+    if [ ! -f "$README_EN_PATH" ] || [ ! -s "$README_EN_PATH" ]; then
+        log_info "📝 Creating default English README at $README_EN_PATH"
+        echo "$DEFAULT_EN_CONTENT" > "$README_EN_PATH"
+        log_success "✅ Default English README created"
+    fi
+    
+    # Check and create Turkish README if missing or empty
+    if [ ! -f "$README_TR_PATH" ] || [ ! -s "$README_TR_PATH" ]; then
+        log_info "📝 Creating default Turkish README at $README_TR_PATH"
+        echo "$DEFAULT_TR_CONTENT" > "$README_TR_PATH"
+        log_success "✅ Default Turkish README created"
+    fi
+}
+
 # === 📚 README GENERATION ===
 generate_readme() {
     log_info "📝 Generating README files..."
     
-    # Validate required English README
-    if ! validate_file "$README_EN_PATH" "English README"; then
-        log_error "❌ English README is mandatory but not found at $README_EN_PATH"
-        exit 1
-    fi
-    
-    # Check optional Turkish README
-    if ! validate_file "$README_TR_PATH" "Turkish README"; then
-        log_warning "⚠️ Turkish README not found at $README_TR_PATH - continuing with English only"
-    fi
-    
-    # Load English README content
+    # Load English README content with fallback
     local en_content
-    en_content=$(cat "$README_EN_PATH")
+    if [ -f "$README_EN_PATH" ] && [ -s "$README_EN_PATH" ]; then
+        en_content=$(cat "$README_EN_PATH")
+    else
+        log_warning "⚠️ English README empty or missing, using default content"
+        en_content="$DEFAULT_EN_CONTENT"
+    fi
     
     # Generate main README.md from English version
     execute_command "echo \"$en_content\" > README.md" "Generating main README.md"
@@ -163,12 +192,7 @@ generate_readme() {
 sync_readme() {
     log_info "🔄 Syncing README files..."
     
-    # Validate required English README
-    if ! validate_file "$README_EN_PATH" "English README"; then
-        log_error "❌ English README is mandatory but not found at $README_EN_PATH"
-        exit 1
-    fi
-    
+    ensure_readme_files_exist
     generate_readme
     log_success "✅ README sync completed"
 }
@@ -232,6 +256,7 @@ main() {
     # Setup
     ensure_logs_dir
     initialize_update_log
+    ensure_readme_files_exist
     
     # Execute requested operations
     if [ "$ALL" = true ]; then
