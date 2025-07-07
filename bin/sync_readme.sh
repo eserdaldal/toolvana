@@ -22,6 +22,10 @@ SILENT=false
 FORCE=false
 HELP=false
 
+# === 📁 FILE PATHS ===
+README_EN_PATH="docs/readme_en.md"
+README_TR_PATH="docs/readme_tr.md"
+
 # Parse command line arguments
 while [ $# -gt 0 ]; do
     case $1 in
@@ -120,13 +124,20 @@ execute_command() {
 generate_readme() {
     log_info "📝 Generating README files..."
     
-    # Default English README content
+    # Validate required English README
+    if ! validate_file "$README_EN_PATH" "English README"; then
+        log_error "❌ English README is mandatory but not found at $README_EN_PATH"
+        exit 1
+    fi
+    
+    # Check optional Turkish README
+    if ! validate_file "$README_TR_PATH" "Turkish README"; then
+        log_warning "⚠️ Turkish README not found at $README_TR_PATH - continuing with English only"
+    fi
+    
+    # Load English README content
     local en_content
-    en_content=$(cat readme_en.md 2>/dev/null || echo "# Toolvana - EN
-
-**Solve Faster. Work Smarter.**
-
-Toolvana is a modern and user-friendly platform that brings together online tools for daily needs under one roof.")
+    en_content=$(cat "$README_EN_PATH")
     
     # Generate main README.md from English version
     execute_command "echo \"$en_content\" > README.md" "Generating main README.md"
@@ -139,7 +150,7 @@ Toolvana is a modern and user-friendly platform that brings together online tool
 
 ---
 
-**📋 Sync Info:** This README.md was automatically synced from \`readme_en.md\` (English (default)) on $timestamp"
+**📋 Sync Info:** This README.md was automatically synced from \`$README_EN_PATH\` (English (default)) on $timestamp"
     
     if [ "$DRY_RUN" = false ]; then
         echo "$sync_info" >> README.md
@@ -152,10 +163,10 @@ Toolvana is a modern and user-friendly platform that brings together online tool
 sync_readme() {
     log_info "🔄 Syncing README files..."
     
-    # Validate source files
-    if ! validate_file "readme_en.md" "English README"; then
-        log_warning "⚠️ English README not found, skipping sync"
-        return 1
+    # Validate required English README
+    if ! validate_file "$README_EN_PATH" "English README"; then
+        log_error "❌ English README is mandatory but not found at $README_EN_PATH"
+        exit 1
     fi
     
     generate_readme
