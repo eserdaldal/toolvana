@@ -1,5 +1,10 @@
-<!-- Auto-generated placeholder -->
-📁 All documentation has been moved to the `docs/` folder.
+# Toolvana - EN
 
-🔗 [English README](docs/readme_en.md)  
-🔗 [Turkish README](docs/readme_tr.md)
+**Solve Faster. Work Smarter.**
+
+Toolvana is a modern and user-friendly platform that brings together online tools for daily needs under one roof.
+
+
+---
+
+**📋 Sync Info:** This README.md was automatically synced from `readme_en.md` (English (default)) on 2025-07-07 21:29:51
