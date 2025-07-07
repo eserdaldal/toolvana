@@ -194,6 +194,15 @@
   </div>
 
   <!-- Helpers.js Test Section -->
+  <!-- RecentToolsManager Test Section -->
+  <div class="test-container" style="margin-top: 2rem;">
+    <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">🔧 RecentToolsManager Test</h2>
+    <section>
+      <h3>Recent Tools (RecentToolsManager)</h3>
+      <ul id="recent-tools-list"></ul>
+    </section>
+  </div>
+
   <div class="test-container" style="margin-top: 2rem;">
     <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">🔧 helpers.js Test</h2>
     
@@ -456,6 +465,16 @@
         }
       });
     }
+  </script>
+
+  <script type="module">
+    import { RecentToolsManager } from './scripts/logic/RecentToolsManager.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      RecentToolsManager.save('kelime-sayaci');
+      RecentToolsManager.save('pdf-donusturucu');
+      RecentToolsManager.render('#recent-tools-list');
+    });
   </script>
 
   
