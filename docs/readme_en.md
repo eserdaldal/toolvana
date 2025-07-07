@@ -73,3 +73,5 @@ Built by DALDAL using modern web standards for scalability and maintainability.
 
 *Solve your daily tasks faster and smarter with Toolvana!*
 
+🧪 Auto-push test (shell üzerinden yazıldı)
+✅ test: yazma başarılı
