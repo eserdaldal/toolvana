@@ -221,7 +221,7 @@ commit_readme() {
     fi
     
     # Stage README files
-    execute_command "git add README.md readme_*.md" "Staging README files"
+    execute_command "git add README.md docs/readme_*.md" "Staging README files"
     
     # Commit if there are staged changes
     if [ "$DRY_RUN" = false ]; then
