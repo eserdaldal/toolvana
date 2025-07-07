@@ -103,28 +103,22 @@ if [ "$GENERATE" = false ] && [ "$SYNC" = false ] && [ "$COMMIT" = false ] && [ 
 fi
 
 # Utility functions
-log_output() {
-    if [ "$SILENT" = false ]; then
-        echo "$@"
-    fi
-}
-
 execute_command() {
     local cmd="$1"
     local description="$2"
     
     if [ "$DRY_RUN" = true ]; then
-        log_output "🔍 [DRY-RUN] Would execute: $description"
+        log_info "🔍 [DRY-RUN] Would execute: $description"
         return 0
     else
-        log_output "🔄 $description..."
+        log_info "🔄 $description..."
         eval "$cmd"
     fi
 }
 
 # === 📚 README GENERATION ===
 generate_readme() {
-    log_output "📝 Generating README files..."
+    log_info "📝 Generating README files..."
     
     # Default English README content
     local en_content
@@ -151,29 +145,29 @@ Toolvana is a modern and user-friendly platform that brings together online tool
         echo "$sync_info" >> README.md
     fi
     
-    log_output "✅ README generation completed"
+    log_success "✅ README generation completed"
 }
 
 # === 🔄 README SYNC ===
 sync_readme() {
-    log_output "🔄 Syncing README files..."
+    log_info "🔄 Syncing README files..."
     
     # Validate source files
     if ! validate_file "readme_en.md" "English README"; then
-        log_output "⚠️ English README not found, skipping sync"
+        log_warning "⚠️ English README not found, skipping sync"
         return 1
     fi
     
     generate_readme
-    log_output "✅ README sync completed"
+    log_success "✅ README sync completed"
 }
 
 # === 📤 COMMIT CHANGES ===
 commit_readme() {
-    log_output "📤 Committing README changes..."
+    log_info "📤 Committing README changes..."
     
     if ! ensure_git_repo; then
-        log_output "❌ Not a git repository"
+        log_error "❌ Not a git repository"
         return 1
     fi
     
@@ -187,7 +181,7 @@ commit_readme() {
     fi
     
     if [ "$readme_changed" = false ] && [ "$FORCE" = false ]; then
-        log_output "✅ No README changes to commit"
+        log_success "✅ No README changes to commit"
         return 0
     fi
     
@@ -197,7 +191,7 @@ commit_readme() {
     # Commit if there are staged changes
     if [ "$DRY_RUN" = false ]; then
         if git diff --cached --quiet 2>/dev/null; then
-            log_output "✅ No staged README changes"
+            log_success "✅ No staged README changes"
             return 0
         fi
     fi
@@ -212,16 +206,16 @@ commit_readme() {
         log_action "success" "README committed v$version"
     fi
     
-    log_output "✅ README commit completed"
+    log_success "✅ README commit completed"
 }
 
 # === 🚀 MAIN EXECUTION ===
 main() {
-    log_output "📚 Toolvana README Management Tool"
-    log_output "=================================="
+    log_info "📚 Toolvana README Management Tool"
+    log_info "=================================="
     
     if [ "$DRY_RUN" = true ]; then
-        log_output "🔍 DRY-RUN MODE: No changes will be made"
+        log_info "🔍 DRY-RUN MODE: No changes will be made"
     fi
     
     # Setup
@@ -247,7 +241,7 @@ main() {
         commit_readme
     fi
     
-    log_output "🎉 README management completed!"
+    log_success "🎉 README management completed!"
 }
 
 main "$@"
