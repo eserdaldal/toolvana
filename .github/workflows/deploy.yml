@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Print working directory and list files
+        run: |
+          echo "Current working directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -la
+          echo "Repository structure:"
+          find . -type f -name "*.html" -o -name "*.css" -o -name "*.js" | head -20
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Build & Export (if needed)
+        run: echo "Static project, no build step required"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: Toolvana Bot
+          user_email: bot@toolvana.app

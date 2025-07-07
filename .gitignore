@@ -1,0 +1,28 @@
+
+# Node / Dependencies
+node_modules/
+
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor-specific files
+.vscode/
+.idea/
+*.swp
+attached_assets/
+
+# Backup files
+*.bak
+*~
+*.tmp
+
+# Build outputs
+dist/
+build/
+
+# Logs directory (except essential log files)
+logs/*
+!logs/update.log
+!logs/.version_tracker

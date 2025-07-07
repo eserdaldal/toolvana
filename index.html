@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toolvana - Daha hızlı çözümler, daha akıllı çalışma araçları">
+  <title>Toolvana | Solve Faster. Work Smarter.</title>
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link href="style/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <img src="assets/images/logo.png" alt="Toolvana Logo" class="logo" />
+        <span class="brand-name">ToolVana</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#anasayfa">Anasayfa</a></li>
+        <li><a href="#hakkimizda">Hakkımızda</a></li>
+        <li><a href="#araclar">Araçlar</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#iletisim">İletişim</a></li>
+        <li><a href="test-ui.html">Test Sayfası</a></li>
+      </ul>
+      <div class="mobile-menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-layout">
+    <main>
+      <section id="anasayfa" class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Toolvana'ya Hoş Geldiniz</h1>
+          <p class="hero-description">
+            Daha hızlı çözümler ve daha akıllı çalışma deneyimi için tasarlanmış modern araçlar platformu.
+            İş akışınızı optimize edin, verimliliğinizi artırın.
+          </p>
+          <button class="cta-button">Araçları Keşfet</button>
+        </div>
+      </section>
+
+      <section id="hakkimizda" class="about-section">
+        <div class="container">
+          <h2 class="section-title">Hakkımızda</h2>
+          <div class="about-content">
+            <p>
+              Toolvana, modern iş dünyasının ihtiyaçlarına yönelik geliştirilen kapsamlı bir araç platformudur.
+              Amacımız, kullanıcılarımızın günlük iş akışlarını kolaylaştırmak ve verimliliği maksimize etmektir.
+            </p>
+            <p>
+              Gelişmiş teknolojiler kullanarak, karmaşık problemlere basit çözümler sunuyoruz.
+              Her araç, kullanıcı deneyimini ön planda tutarak tasarlanmıştır.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="araclar" class="tools-section">
+        <div class="container">
+          <h2 class="section-title">Araçlarımız</h2>
+          <div class="tools-grid">
+            <div class="tool-card">
+              <h3>Metin Araçları</h3>
+              <p>Metin işleme, dönüştürme ve analiz araçları</p>
+            </div>
+            <div class="tool-card">
+              <h3>Görsel Araçları</h3>
+              <p>Resim düzenleme ve optimizasyon araçları</p>
+            </div>
+            <div class="tool-card">
+              <h3>Veri Araçları</h3>
+              <p>Veri analizi ve raporlama araçları</p>
+            </div>
+            <div class="tool-card">
+              <h3>Geliştirici Araçları</h3>
+              <p>Kod formatı, minify ve test araçları</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="blog-section">
+        <div class="container">
+          <h2 class="section-title">Blog</h2>
+          <div class="blog-content">
+            <p>Yeni içerikler ve gelişmeleri burada paylaşacağız.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="iletisim" class="contact-section">
+        <div class="container">
+          <h2 class="section-title">İletişim</h2>
+          <div class="contact-content">
+            <p>Bizimle iletişime geçmek için aşağıdaki formu kullanabilirsiniz.</p>
+            <form class="contact-form">
+              <div class="form-group">
+                <label for="name">Ad Soyad</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Mesaj</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="submit-button">Gönder</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="sidebar">
+      <div class="widget">
+        <h3 class="widget-title">Son Kullanılan Araçlar</h3>
+        <ul id="recent-tools-list" class="widget-list">
+          <li>Henüz araç kullanılmadı</li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title">Popüler Araçlar</h3>
+        <ul class="widget-list">
+          <li><a href="#" class="widget-link">Kalori Hesaplayıcı</a></li>
+          <li><a href="#" class="widget-link">PDF Dönüştürücü</a></li>
+          <li><a href="#" class="widget-link">Kelime Sayacı</a></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title">Yeni Araçlar</h3>
+        <ul class="widget-list">
+          <li><a href="#" class="widget-link">YouTube Thumbnail Oluşturucu</a></li>
+          <li><a href="#" class="widget-link">Zaman Dilimi Dönüştürücü</a></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title">Günün Önerilen Aracı</h3>
+        <div class="suggested-tool">
+          <a href="#" class="suggested-link">Enflasyon Hesaplayıcı</a>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title">Blog Yazıları</h3>
+        <ul class="widget-list">
+          <li><a href="#" class="widget-link">Verimlilik için 5 ücretsiz araç</a></li>
+          <li><a href="#" class="widget-link">Neden metin analiz araçları önemlidir?</a></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title">E-bülten</h3>
+        <div class="newsletter-form">
+          <input type="email" placeholder="E-posta adresiniz" class="newsletter-input">
+          <button class="newsletter-button">Abone Ol</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <!-- START: Version Log Display Feature -->
+      <div class="version-info">
+        <div class="version-timestamp">
+          <span class="update-label">Son güncelleme:</span>
+          <span id="last-update-time" class="update-time">Yükleniyor...</span>
+        </div>
+        <div class="version-actions">
+          <a href="#" id="view-version-log" class="version-link" aria-label="Sürüm geçmişini görüntüle">
+            📋 Sürüm Geçmişini Görüntüle
+          </a>
+        </div>
+      </div>
+      <!-- END: Version Log Display Feature -->
+      <p>&copy; 2024 Toolvana. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/script.js"></script>
+  <script type="module" src="scripts/recentTools.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+
+[
+  {
+    "id": "calorie-calculator",
+    "title": "Calorie Calculator",
+    "description": "Calculate daily caloric needs based on activity level.",
+    "path": "calculator.html",
+    "icon": "🔥"
+  }
+]
