@@ -45,6 +45,23 @@ log_output() {
     fi
 }
 
+# Professional logging functions with consistent formatting
+log_info() {
+    echo "ℹ️  INFO: $*"
+}
+
+log_success() {
+    echo "✅ SUCCESS: $*"
+}
+
+log_warning() {
+    echo "⚠️  WARNING: $*"
+}
+
+log_error() {
+    echo "❌ ERROR: $*"
+}
+
 # Initialize update log file
 initialize_update_log() {
     local update_log="${1:-logs/update.log}"
