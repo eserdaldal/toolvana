@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>✨ recentTools.js Test Page</title>
+  <title>✨ RecentToolsManager Test Page</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,47 +53,12 @@
       font-size: 2rem;
     }
 
-    .button-group {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
+    h3 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
     }
 
-    button {
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      border: none;
-      border-radius: 6px;
-      background-color: #3498db;
-      color: white;
-      transition: background-color 0.3s ease;
-      flex: 1;
-      min-width: 150px;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    #save-btn {
-      background-color: #27ae60;
-    }
-
-    #save-btn:hover {
-      background-color: #229954;
-    }
-
-    #load-btn {
-      background-color: #e74c3c;
-    }
-
-    #load-btn:hover {
-      background-color: #c0392b;
-    }
-
-    #output-list {
+    #recent-tools-list {
       background: #f8f9fa;
       border: 1px solid #dee2e6;
       border-radius: 6px;
@@ -105,12 +69,14 @@
       padding-left: 2rem;
     }
 
-    #output-list:empty::before {
-      content: "Henüz kayıtlı araç yok...";
-      color: #6c757d;
-      font-style: italic;
-      list-style: none;
-      padding-left: 0;
+    #recent-tools-list a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    #recent-tools-list a:hover {
+      text-decoration: underline;
     }
 
     .note {
@@ -125,12 +91,9 @@
     }
 
     @media (max-width: 600px) {
-      .button-group {
-        flex-direction: column;
-      }
-
-      button {
-        flex: none;
+      .test-container {
+        padding: 1.5rem;
+        margin: 1rem;
       }
     }
   </style>
@@ -148,13 +111,13 @@
     a[href="index.html"]:first-of-type {
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
-    
+
     .back-to-homepage:hover, 
     a[href="index.html"]:first-of-type:hover {
       background-color: #5a6268 !important;
       transform: translateY(-2px);
     }
-    
+
     .back-to-homepage:focus, 
     a[href="index.html"]:first-of-type:focus {
       outline: 2px solid #007bff;
@@ -162,322 +125,35 @@
     }
   </style>
 
-  <div class="test-container"></div>
-    <h1>✨ recentTools.js Test Page</h1>
-    
-    <div class="button-group">
-      <button id="save-btn">Save Tool</button>
-      <button id="load-btn">Show Saved Tools</button>
-    </div>
-    
-    <ul id="output-list"></ul>
-    
-    <div class="note">
-      Note: Saved data will be stored in localStorage and rendered below.
-    </div>
-  </div>
+  <div class="test-container">
+    <h1>✨ RecentToolsManager Test Page</h1>
 
-  <!-- Tool Filter Test Section -->
-  <div class="test-container" style="margin-top: 2rem;">
-    <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">📂 toolFilter.js Test</h2>
-    
-    <div class="button-group">
-      <button id="filter-btn" style="background-color: #9b59b6;">Filter by "veri" Category</button>
-      <button id="show-all-tools-btn" style="background-color: #34495e;">Show All Tools</button>
-    </div>
-    
-    <ul id="filtered-tools-list" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 1rem; margin: 1.5rem 0; min-height: 100px; list-style-type: disc; padding-left: 2rem;"></ul>
-    
-    <div class="note">
-      Note: Testing category filtering functionality with mock data.
-    </div>
-  </div>
-
-  <!-- Helpers.js Test Section -->
-  <!-- RecentToolsManager Test Section -->
-  <div class="test-container" style="margin-top: 2rem;">
-    <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">🔧 RecentToolsManager Test</h2>
     <section>
-      <h3>Recent Tools (RecentToolsManager)</h3>
+      <h3>Recent Tools Test (RecentToolsManager)</h3>
       <ul id="recent-tools-list"></ul>
     </section>
-  </div>
 
-  <div class="test-container" style="margin-top: 2rem;">
-    <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">🔧 helpers.js Test</h2>
-    
-    <!-- Capitalize Test -->
-    <div style="margin-bottom: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #e74c3c;">
-      <h3 style="color: #e74c3c; margin-bottom: 1rem;">🔤 Capitalize Test</h3>
-      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-        <input type="text" id="capitalize-input" placeholder="hello world" style="flex: 1; min-width: 200px; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 1rem;">
-        <button id="test-capitalize-btn" style="padding: 10px 20px; background-color: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Test Capitalize</button>
-      </div>
-      <div id="capitalize-output" style="padding: 1rem; background: white; border: 1px solid #dee2e6; border-radius: 6px; min-height: 50px; font-family: monospace;">Capitalized text will appear here...</div>
-    </div>
-    
-    <!-- Slugify Test -->
-    <div style="margin-bottom: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #f39c12;">
-      <h3 style="color: #f39c12; margin-bottom: 1rem;">🔗 Slugify Test</h3>
-      <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-        <input type="text" id="slugify-input" placeholder="Hello World! This is a Test" style="flex: 1; min-width: 200px; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 1rem;">
-        <button id="test-slugify-btn" style="padding: 10px 20px; background-color: #f39c12; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Test Slugify</button>
-      </div>
-      <div id="slugify-output" style="padding: 1rem; background: white; border: 1px solid #dee2e6; border-radius: 6px; min-height: 50px; font-family: monospace;">Slugified text will appear here...</div>
-    </div>
-    
     <div class="note">
-      Note: Testing helper utility functions from scripts/util/helpers.js
+      Note: Testing RecentToolsManager functionality with fresh localStorage state.
     </div>
   </div>
-
-  <script type="module">
-    import { saveRecentTool, getRecentTools } from './scripts/logic/recentTools.js';
-    import { capitalize, slugify } from './scripts/util/helpers.js';
-    // Note: filterToolsByCategory is not available in current toolFilter.js, so we'll mock it for testing
-
-    // Get button elements for recentTools test
-    const saveBtn = document.querySelector('#save-btn');
-    const loadBtn = document.querySelector('#load-btn');
-    const outputList = document.querySelector('#output-list');
-
-    // Get button elements for toolFilter test
-    const filterBtn = document.querySelector('#filter-btn');
-    const showAllToolsBtn = document.querySelector('#show-all-tools-btn');
-    const filteredToolsList = document.querySelector('#filtered-tools-list');
-
-    // Mock test data for tool filtering
-    const mockTools = [
-      { name: "Kalori Hesaplayıcı", category: "saglik" },
-      { name: "Veri Analizi Aracı", category: "veri" },
-      { name: "Excel Dönüştürücü", category: "veri" },
-      { name: "Kelime Sayacı", category: "metin" },
-      { name: "Grafik Oluşturucu", category: "veri" },
-      { name: "PDF Birleştirici", category: "dosya" },
-      { name: "JSON Validator", category: "veri" },
-      { name: "Resim Sıkıştırıcı", category: "medya" }
-    ];
-
-    // Mock filterToolsByCategory function (since it doesn't exist in current toolFilter.js)
-    function filterToolsByCategory(tools, category) {
-      return tools.filter(tool => tool.category === category);
-    }
-
-    // Helper function to get tool display name
-    function getToolName(id) {
-      const map = {
-        "kelime-sayaci": "Kelime Sayacı",
-        "pdf-donusturucu": "PDF Dönüştürücü",
-        "kalori-hesaplayici": "Kalori Hesaplayıcı",
-        "thumbnail-olusturucu": "YouTube Thumbnail Oluşturucu"
-      };
-      return map[id] || id;
-    }
-
-    // Function to render tools in the test page
-    function renderToolsToTestPage() {
-      if (!outputList) return;
-
-      // Clear existing content
-      outputList.innerHTML = '';
-
-      const tools = getRecentTools();
-
-      if (tools.length === 0) {
-        const li = document.createElement('li');
-        li.textContent = 'No tools saved yet...';
-        li.style.fontStyle = 'italic';
-        li.style.color = '#6c757d';
-        outputList.appendChild(li);
-        return;
-      }
-
-      tools.forEach(toolId => {
-        const li = document.createElement('li');
-        li.textContent = getToolName(toolId);
-        li.style.padding = '0.25rem 0';
-        outputList.appendChild(li);
-      });
-    }
-
-    // Save button click handler
-    if (saveBtn) {
-      saveBtn.addEventListener('click', () => {
-        try {
-          saveRecentTool('kelime-sayaci');
-          console.log('✅ Tool saved: kelime-sayaci');
-          
-          // Optionally show a brief feedback
-          saveBtn.textContent = 'Saved!';
-          setTimeout(() => {
-            saveBtn.textContent = 'Save Tool';
-          }, 1000);
-        } catch (error) {
-          console.error('❌ Error saving tool:', error);
-        }
-      });
-    }
-
-    // Load button click handler
-    if (loadBtn) {
-      loadBtn.addEventListener('click', () => {
-        try {
-          renderToolsToTestPage();
-          console.log('✅ Recent tools rendered to test page');
-        } catch (error) {
-          console.error('❌ Error rendering tools:', error);
-        }
-      });
-    }
-
-    // Function to render filtered tools
-    function renderFilteredTools(tools) {
-      if (!filteredToolsList) return;
-
-      // Clear existing content
-      filteredToolsList.innerHTML = '';
-
-      if (tools.length === 0) {
-        const li = document.createElement('li');
-        li.textContent = 'Bu kategoride araç bulunamadı...';
-        li.style.fontStyle = 'italic';
-        li.style.color = '#6c757d';
-        filteredToolsList.appendChild(li);
-        return;
-      }
-
-      tools.forEach(tool => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${tool.name}</strong> <span style="color: #6c757d; font-size: 0.9rem;">(${tool.category})</span>`;
-        li.style.padding = '0.25rem 0';
-        filteredToolsList.appendChild(li);
-      });
-    }
-
-    // Filter button click handler
-    if (filterBtn) {
-      filterBtn.addEventListener('click', () => {
-        try {
-          const filteredTools = filterToolsByCategory(mockTools, 'veri');
-          renderFilteredTools(filteredTools);
-          console.log('✅ Tools filtered by "veri" category:', filteredTools);
-          
-          // Brief feedback
-          filterBtn.textContent = 'Filtered!';
-          setTimeout(() => {
-            filterBtn.textContent = 'Filter by "veri" Category';
-          }, 1000);
-        } catch (error) {
-          console.error('❌ Error filtering tools:', error);
-        }
-      });
-    }
-
-    // Show all tools button click handler
-    if (showAllToolsBtn) {
-      showAllToolsBtn.addEventListener('click', () => {
-        try {
-          renderFilteredTools(mockTools);
-          console.log('✅ All tools displayed:', mockTools);
-          
-          // Brief feedback
-          showAllToolsBtn.textContent = 'Showing All!';
-          setTimeout(() => {
-            showAllToolsBtn.textContent = 'Show All Tools';
-          }, 1000);
-        } catch (error) {
-          console.error('❌ Error showing all tools:', error);
-        }
-      });
-    }
-
-    // Initialize the filtered tools display
-    if (filteredToolsList) {
-      const li = document.createElement('li');
-      li.textContent = 'Kategoriye göre filtreleme için yukarıdaki butonları kullanın...';
-      li.style.fontStyle = 'italic';
-      li.style.color = '#6c757d';
-      filteredToolsList.appendChild(li);
-    }
-
-    // Helpers.js test functionality
-    const capitalizeInput = document.querySelector('#capitalize-input');
-    const testCapitalizeBtn = document.querySelector('#test-capitalize-btn');
-    const capitalizeOutput = document.querySelector('#capitalize-output');
-    const slugifyInput = document.querySelector('#slugify-input');
-    const testSlugifyBtn = document.querySelector('#test-slugify-btn');
-    const slugifyOutput = document.querySelector('#slugify-output');
-
-    // Capitalize test
-    if (testCapitalizeBtn && capitalizeInput && capitalizeOutput) {
-      testCapitalizeBtn.addEventListener('click', () => {
-        try {
-          const text = capitalizeInput.value.trim();
-          if (!text) {
-            capitalizeOutput.innerHTML = '<span style="color: #e74c3c;">⚠️ Please enter some text to capitalize</span>';
-            return;
-          }
-          
-          const capitalizedText = capitalize(text);
-          
-          capitalizeOutput.innerHTML = `
-            <div style="color: #28a745; font-weight: 600;">
-              ✅ Text Capitalized Successfully
-            </div>
-            <div style="background: #e9ecef; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem; word-break: break-word;">
-              <strong>Result:</strong> "${capitalizedText}"
-            </div>
-            <div style="color: #6c757d; font-size: 0.9rem; margin-top: 0.5rem;">
-              Original: "${text}"
-            </div>
-          `;
-        } catch (error) {
-          capitalizeOutput.innerHTML = '<span style="color: #e74c3c;">❌ Error testing capitalize function</span>';
-        }
-      });
-    }
-
-    // Slugify test
-    if (testSlugifyBtn && slugifyInput && slugifyOutput) {
-      testSlugifyBtn.addEventListener('click', () => {
-        try {
-          const text = slugifyInput.value.trim();
-          if (!text) {
-            slugifyOutput.innerHTML = '<span style="color: #f39c12;">⚠️ Please enter some text to slugify</span>';
-            return;
-          }
-          
-          const slugifiedText = slugify(text);
-          
-          slugifyOutput.innerHTML = `
-            <div style="color: #28a745; font-weight: 600;">
-              ✅ Text Slugified Successfully
-            </div>
-            <div style="background: #e9ecef; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem; word-break: break-word;">
-              <strong>Result:</strong> "${slugifiedText}"
-            </div>
-            <div style="color: #6c757d; font-size: 0.9rem; margin-top: 0.5rem;">
-              Original: "${text}"
-            </div>
-          `;
-        } catch (error) {
-          slugifyOutput.innerHTML = '<span style="color: #e74c3c;">❌ Error testing slugify function</span>';
-        }
-      });
-    }
-  </script>
 
   <script type="module">
     import { RecentToolsManager } from './scripts/logic/RecentToolsManager.js';
 
     document.addEventListener('DOMContentLoaded', () => {
-      RecentToolsManager.save('kelime-sayaci');
-      RecentToolsManager.save('pdf-donusturucu');
+      // Reset test state
+      localStorage.removeItem('toolvana_recent');
+
+      // Add test tools
+      RecentToolsManager.save('thumbnail-olusturucu');
+      RecentToolsManager.save('kalori-hesaplayici');
+
+      // Render test output
       RecentToolsManager.render('#recent-tools-list');
     });
   </script>
 
-  
 </body>
 
 </html>
