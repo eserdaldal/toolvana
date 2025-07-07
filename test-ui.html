@@ -128,36 +128,15 @@
   <div class="test-container">
     <h1>✨ RecentToolsManager Test Page</h1>
 
-    <section>
-      <h3>Recent Tools Test (RecentToolsManager)</h3>
-      <ul id="recent-tools-list"></ul>
-    </section>
-
     <div class="note">
       Note: Testing RecentToolsManager functionality with fresh localStorage state.
     </div>
   </div>
 
   <section>
-    <h3>Recent Tools Test (Enhanced Metadata)</h3>
+    <h3>Recent Tools Test (Click Order + Limit)</h3>
     <ul id="recent-tools-list"></ul>
   </section>
-
-  <script type="module">
-    import { RecentToolsManager } from './scripts/logic/RecentToolsManager.js';
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Clear any previous test state
-      localStorage.removeItem('toolvana_recent');
-
-      // Save valid tools using correct tool IDs defined in TOOL_MAP
-      RecentToolsManager.save('kalori-hesaplayici');
-      RecentToolsManager.save('thumbnail-olusturucu');
-
-      // Render to UI
-      RecentToolsManager.render('#recent-tools-list');
-    });
-  </script>
 
 </body>
 
