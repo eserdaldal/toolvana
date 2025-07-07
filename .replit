@@ -10,7 +10,7 @@ publicDir = "/"
 deploymentTarget = "static"
 
 [workflows]
-runButton = "Auto Push"
+runButton = "Project Preview"
 
 [[workflows.workflow]]
 name = "Serve static"
@@ -41,6 +41,19 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "./bin/auto-push.sh"
+
+[[workflows.workflow]]
+name = "Project Preview"
+author = 43016543
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🚀 Starting Toolvana preview server...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "static-web-server -w ./.config/static-web-server.toml"
 
 [[ports]]
 localPort = 80
