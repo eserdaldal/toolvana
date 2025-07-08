@@ -35,5 +35,14 @@ args = "echo \"🚀 Starting Toolvana preview server...\""
 task = "shell.exec"
 args = "static-web-server -w ./.config/static-web-server.toml"
 
+[[workflows.workflow]]
+name = "Auto Push"
+author = 43016543
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash bin/auto-push.sh"
+
 [nix]
 packages = ["openssh"]

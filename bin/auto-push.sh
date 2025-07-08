@@ -1,11 +1,5 @@
 
 #!/bin/bash
-# auto-push.sh - Automatic Git push script
-# Author: Toolvana Project
-# Description: Automatically detect changes and push to Git repository
-# Usage: ./bin/auto-push.sh
-
-set -e
 
 # Change to project root directory
 cd "$(dirname "$0")/.."
@@ -16,24 +10,22 @@ if [ ! -d ".git" ]; then
     exit 1
 fi
 
-# Check for changes using git status --porcelain
-changes=$(git status --porcelain 2>/dev/null)
-
-# If no changes detected, exit silently
-if [ -z "$changes" ]; then
+# Check for changes
+if git diff --quiet && git diff --cached --quiet; then
+    echo "✅ No changes to commit"
     exit 0
 fi
 
-# Generate timestamp for commit message
+# Generate timestamp
 timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
 # Add all changes
 git add .
 
-# Commit with automatic message
-git commit -m "auto: automatic update [$timestamp]"
+# Commit with timestamp
+git commit -m "auto: updated on $timestamp"
 
-# Push to remote repository
+# Push to remote
 git push
 
 echo "✅ Auto-push completed at $timestamp"
