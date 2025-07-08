@@ -1,5 +1,5 @@
 name: Deploy to GitHub Pages
-
+if: false
 on:
   push:
     branches:
